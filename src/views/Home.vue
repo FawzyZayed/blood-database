@@ -2,9 +2,13 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <select name="" id="">
+    <select name="" @change="onChange($event)">
       <option value="" disabled selected>select country</option>
-      <option v-for="(country, index) in countriesName" :key="index">{{ country }}</option>
+      <option v-for="(country, index) in citiesName" :key="index" :value="country.id">{{ country.country }}</option>
+    </select>
+    <select name="" id="">
+      <!-- <option value="" selected>select country first</option> -->
+      <option v-for="(city, index) in currentCities" :key="index">{{ city }}</option>
     </select>
   </div>
 </template>
@@ -19,16 +23,28 @@ export default {
   name: 'home',
   data () {
     return {
-      countriesName: []
+      countriesName: [],
+      citiesName: [],
+      currentCities: []
     }
   },
   components: {
     HelloWorld
   },
+  methods: {
+    onChange (event) {
+      // console.log(event.target.value)
+      let cityId = event.target.value
+      // console.log(this.citiesName[cityId].cities)
+      this.currentCities = []
+      this.currentCities.push(this.citiesName[cityId].cities)
+      console.log(this.currentCities)
+    }
+  },
   created () {
     countries.forEach((element, index, array) => {
-      this.countriesName.push(element.name)
-      console.log(element.states)
+      this.countriesName.push({ id: index, country: element.name })
+      this.citiesName.push({ id: index, country: element.name, cities: element.states })
     })
   }
 }
