@@ -8,15 +8,17 @@
       <option value="" selected>select country first</option>
       <option v-for="(city, index) in currentCities" :key="index">{{ city.cityName }}</option>
     </select> -->
-    <v-select
+    <v-autocomplete
       label="Sellect Country"
       :items="countries"
       :filter="clickme"
       item-text="name"
       item-value="iso3"
-      return-object
+      :loading="isLoading"
+      :search-input.sync="search"
+      cache-items
       single-line
-    ></v-select>
+    ></v-autocomplete>
   </div>
 </template>
 
@@ -29,12 +31,15 @@ export default {
   name: 'home',
   data () {
     return {
-      countries: []
+      countries: [],
+      isLoading: false,
+      model: null,
+      search: null
     }
   },
   methods: {
     clickme (event) {
-      console.log(event)
+      console.log(event.id)
     }
     // onChange (event) {
     //   // console.log(event.target.value)
