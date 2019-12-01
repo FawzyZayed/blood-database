@@ -146,7 +146,7 @@ export default class tableList extends Vue {
     age: ''
   }
   private beforeCreate () {
-    this.axios.get('https://vue-users.firebaseio.com/userTable.json').then(response => {
+    this.axios.get('https://gblooddb.firebaseio.com/donors.json').then(response => {
       // console.log(response.data)
       const data = response.data
       for (let key in data) {
@@ -158,7 +158,7 @@ export default class tableList extends Vue {
   }
   onSubmit (evt: any) {
     console.log(evt.id)
-    axios.put(`https://vue-users.firebaseio.com/userTable/${evt.id}.json`, {
+    axios.put(`https://gblooddb.firebaseio.com/donors/${evt.id}.json`, {
       name: evt.name,
       email: evt.email,
       age: evt.age
@@ -168,7 +168,7 @@ export default class tableList extends Vue {
   }
   deleteItem (index: number, id: string) {
     console.log(index + ' : ' + id)
-    axios.delete(`https://vue-users.firebaseio.com/userTable/${id}.json`)
+    axios.delete(`https://gblooddb.firebaseio.com/donors/${id}.json`)
       .then(response => {
         this.items.splice(index, 1)
       })

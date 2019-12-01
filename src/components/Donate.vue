@@ -33,6 +33,7 @@
               placeholder="Enter name"
             ></b-form-input>
           </b-form-group>
+
           <b-form-group
             id="input-group-3"
             label="Your age:"
@@ -88,7 +89,7 @@ export default class tableAdd extends Vue {
   }
   onSubmit (evt: any) {
     evt.preventDefault()
-    axios.post('https://vue-users.firebaseio.com/userTable.json', {
+    axios.post('https://gblooddb.firebaseio.com/donors.json', {
       email: this.form.email,
       name: this.form.name,
       age: this.form.age
