@@ -1,60 +1,93 @@
 <template>
   <div class="home">
-    <!-- <select name="" @change="onChange($event)">
-      <option value="" disabled selected>select country</option>
-      <option v-for="(country, index) in citiesName" :key="index" :value="country.id">{{ country.country }}</option>
-    </select>
-    <select name="" id="">
-      <option value="" selected>select country first</option>
-      <option v-for="(city, index) in currentCities" :key="index">{{ city.cityName }}</option>
-    </select> -->
-    <v-select
-      label="Sellect Country"
-      :items="countries"
-      :filter="clickme"
-      item-text="name"
-      item-value="iso3"
-      return-object
-      single-line
-    ></v-select>
+    <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <b-form-select
+            class="mb-3"
+            :options="citiesName"
+            @change="onChange"
+            value-field="id"
+            text-field="country"
+            v-model="thisCountry"
+            >
+          </b-form-select>
+        </b-col>
+        <b-col>
+          <b-form-select
+            class="mb-3"
+            :options="currentCities"
+            value-field="id"
+            text-field="cityName"
+            v-model="thisCity"
+          >
+          </b-form-select>
+        </b-col>
+        <b-col>
+          <b-form-select
+            class="mb-3"
+            :options="bloodtype"
+            v-model="thisBlood"
+          >
+          </b-form-select>
+        </b-col>
+        <b-col>
+          <b-button variant="outline-primary">Search</b-button>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import countries from '../assets/jsons/countries.json'
+// import HelloWorld from '@/components/HelloWorld.vue'
 import axios from 'axios'
 
 export default {
   name: 'home',
   data () {
     return {
-      countries: []
+      thisCountry: '0',
+      thisCity: '246-0',
+      thisBlood: 'A+',
+      countriesName: [],
+      citiesName: [],
+      currentCities: [],
+      bloodtype: ['A+', 'A-']
     }
   },
+
   methods: {
-    clickme (event) {
-      console.log(event)
+    onChange (event, index) {
+      // console.log(event)
+      let cityId = event
+      // console.log(this.citiesName[cityId].cities)
+      this.currentCities = []
+      const data = this.citiesName[cityId].cities
+      for (let key in data) {
+        const cityName = data[key]
+        this.currentCities.push({ id: cityId + '-' + [key], cityName })
+      }
+      this.thisCity = cityId + '-0'
+      // console.log(this.currentCities)
     }
-    // onChange (event) {
-    //   // console.log(event.target.value)
-    //   let cityId = event.target.value
-    //   // console.log(this.citiesName[cityId].cities)
-    //   this.currentCities = []
-    //   const data = this.citiesName[cityId].cities
-    //   for (let key in data) {
-    //     const cityName = data[key]
-    //     this.currentCities.push({ cityName })
-    //   }
-    //   console.log(this.currentCities)
-    // }
   },
   created () {
-    countries.forEach((element, index) => {
-      console.log(element, index)
-      this.countries.push({ id: index, name: element.name, states: element.states, iso3: element.iso3 })
+    this.axios.get('https://gblooddb.firebaseio.com/countries.json').then(response => {
+      // console.log(response.data)
+      const data = response.data
+      data.forEach((element, index, array) => {
+        this.countriesName.push({ id: index, country: element.name })
+        this.citiesName.push({ id: index, country: element.name, iso3: element.iso3, cities: element.states })
+        this.currentCities = []
+        const nwdata = this.citiesName[index].cities
+        for (let key in nwdata) {
+          const cityName = nwdata[key]
+          this.currentCities.push({ id: index + '-' + [key], cityName })
+        }
+      })
     })
-    console.log(this.countries)
   }
 }
 </script>
