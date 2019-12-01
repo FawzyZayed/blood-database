@@ -1,41 +1,39 @@
 <template>
   <div class="home">
-    <b-container class="bv-example-row">
-      <b-row>
-        <b-col>
-          <b-form-select
-            class="mb-3"
-            :options="citiesName"
-            @change="onChange"
-            value-field="id"
-            text-field="country"
-            v-model="thisCountry"
-            >
-          </b-form-select>
-        </b-col>
-        <b-col>
-          <b-form-select
-            class="mb-3"
-            :options="currentCities"
-            value-field="id"
-            text-field="cityName"
-            v-model="thisCity"
+    <b-row>
+      <b-col>
+        <b-form-select
+          class="mb-3"
+          :options="citiesName"
+          @change="onChange"
+          value-field="id"
+          text-field="country"
+          v-model="thisCountry"
           >
-          </b-form-select>
-        </b-col>
-        <b-col>
-          <b-form-select
-            class="mb-3"
-            :options="bloodtype"
-            v-model="thisBlood"
-          >
-          </b-form-select>
-        </b-col>
-        <b-col>
-          <b-button variant="outline-primary">Search</b-button>
-        </b-col>
-      </b-row>
-    </b-container>
+        </b-form-select>
+      </b-col>
+      <b-col>
+        <b-form-select
+          class="mb-3"
+          :options="currentCities"
+          value-field="id"
+          text-field="cityName"
+          v-model="thisCity"
+        >
+        </b-form-select>
+      </b-col>
+      <b-col>
+        <b-form-select
+          class="mb-3"
+          :options="bloodtype"
+          v-model="thisBlood"
+        >
+        </b-form-select>
+      </b-col>
+      <b-col>
+        <b-button block variant="outline-primary">Search</b-button>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
